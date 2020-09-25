@@ -4,7 +4,16 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+class PublishedManager(models.Manager):
+    # override method to apply custom filter on the final QuerySet
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(status='published')
+
+
 class Post(models.Model):
+    # In order to use default manager and custom one they need to be explicitly created
+    objects = models.Manager()  # The default manager
+    published = PublishedManager()  # The custom manager
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),
