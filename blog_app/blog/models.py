@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
 # Create your models here.
 
 
@@ -13,7 +14,7 @@ class PublishedManager(models.Manager):
 class Post(models.Model):
     # In order to use default manager and custom one they need to be explicitly created
     objects = models.Manager()  # The default manager
-    published = PublishedManager()  # The custom manager
+    published = PublishedManager()  # The custom manager. This will return post only with status='published'
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),
@@ -56,3 +57,10 @@ class Post(models.Model):
     # human readable representation of an object
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('blog:post_detail',
+                       args=[self.publish.year,
+                             self.publish.month,
+                             self.publish.day,
+                             self.slug])
