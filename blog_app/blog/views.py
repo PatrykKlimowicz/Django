@@ -1,25 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import ListView
 # Create your views here.
 
 
-def post_list(request):
-    object_list = Post.published.all()
-    paginator = Paginator(object_list, 1)  # one post on each site
-    page = request.GET.get('page')  # obtain current page number
-
-    try:
-        posts = paginator.page(page)  # obtain posts for desired page
-    except PageNotAnInteger:
-        # if page not an integer return first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # if page index out of range return last page
-        posts = paginator.page(paginator.num_pages)
-
-    context = {'page': page, 'posts': posts}
-    return render(request, 'blog/post/list.html', context=context)
+class PostListView(ListView):
+    queryset = Post.published.all()
+    context_object_name = 'posts'
+    paginate_by = 2
+    template_name = 'blog/post/list.html'
 
 
 def post_detail(request, year, month, day, post):
