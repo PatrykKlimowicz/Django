@@ -69,7 +69,11 @@ def edit_user(request):
             return redirect('dashboard')
     else:
         user_form = UserEditForm(instance=request.user)
-        profile_form = ProfileEditForm(instance=request.user.profile)
+        try:
+            profile_form = ProfileEditForm(instance=request.user.profile)
+        except Exception:
+            Profile.objects.create(user=request.user)
+            profile_form = ProfileEditForm(instance=request.user.profile)
 
     context = {'user_form': user_form, 'profile_form': profile_form}
     return render(request, 'account/edit.html', context=context)

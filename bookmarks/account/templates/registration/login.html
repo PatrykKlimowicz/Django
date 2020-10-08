@@ -22,4 +22,11 @@
         </form>
         <p>If You don't have account click <a href="{% url 'register' %}">here</a> to create one!</p>
     </div>
+    <div class="social">
+        <ul>
+            <li class="facebook">
+                <a href="{% url 'social:begin' 'facebook' %}">Sign in with Facebook</a>
+            </li>
+        </ul>
+    </div>
 {% endblock %}
