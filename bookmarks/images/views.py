@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ImageCreateForm
+from .models import Image
 # Create your views here.
 
 
@@ -22,3 +23,10 @@ def image_create(request):
 
     context = {'form': form, 'section': 'images'}
     return render(request, 'images/image/create.html', context=context)
+
+
+def image_detail(request, image_id, image_slug):
+    image = get_object_or_404(Image, id=image_id, slug=image_slug)
+
+    context = {'image': image, 'section': 'images'}
+    return render(request, 'images/image/detail.html', context=context)

@@ -49,7 +49,7 @@ def user_register(request):
 
 @login_required
 def dashboard(request):
-    context = {'section': dashboard}
+    context = {'section': 'dashboard'}
     return render(request, 'account/dashboard.html', context=context)
 
 
