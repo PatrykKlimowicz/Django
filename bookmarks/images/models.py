@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
 from django.urls import reverse
+import datetime
 # Create your models here.
 
 
@@ -24,7 +25,8 @@ class Image(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            slug_input = self.title + str(datetime.datetime.now())
+            self.slug = slugify(slug_input)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
