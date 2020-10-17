@@ -13,7 +13,7 @@
     var block_request = false;
 
     $(window).scroll(function() {
-        var margin = $(document).height() - $(window).height() - 200;
+        var margin = $(document).height() - $(window).height() - 500;
         if ($(window).scrollTop() > margin && !empty_page && !block_request) {
             block_request = true;
             page += 1;
