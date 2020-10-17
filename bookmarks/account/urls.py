@@ -33,5 +33,6 @@ urlpatterns = [
 
     #
     path('users/', views.user_list, name='users_list'),
+    path('users/follow/', views.user_follow, name='user_follow'),
     path('users/<username>/', views.user_detail, name='user_detail'),
 ]
