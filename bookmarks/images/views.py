@@ -4,13 +4,21 @@ from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+import redis
+from django.conf import settings
+
 from .forms import ImageCreateForm
 from .models import Image
 from common.decorators import ajax_required
 from actions.utils import create_action
+
+# connect to redis
+r = redis.Redis(host=settings.REDIS_HOST,
+                port=settings.REDIS_PORT,
+                db=settings.REDIS_DB)
+
+
 # Create your views here.
-
-
 @login_required
 def image_create(request):
     if request.method == "POST":
@@ -34,7 +42,10 @@ def image_create(request):
 def image_detail(request, image_id, image_slug):
     image = get_object_or_404(Image, id=image_id, slug=image_slug)
 
-    context = {'image': image, 'section': 'images'}
+    # increment total_views by 1, if key:value pair is not exist incr will create it
+    total_views = r.incr(f'image:{image.id}:views')
+
+    context = {'image': image, 'section': 'images', 'total_views': total_views}
     return render(request, 'images/image/detail.html', context=context)
 
 
