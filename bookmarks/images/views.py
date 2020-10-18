@@ -45,6 +45,9 @@ def image_detail(request, image_id, image_slug):
     # increment total_views by 1, if key:value pair is not exist incr will create it
     total_views = r.incr(f'image:{image.id}:views')
 
+    # increment image ranking by 1, this will store points of image
+    r.zincrby('image_ranking', total_views, image.id)
+
     context = {'image': image, 'section': 'images', 'total_views': total_views}
     return render(request, 'images/image/detail.html', context=context)
 
@@ -90,3 +93,19 @@ def image_list(request):
         return render(request, 'images/image/list_ajax.html', context=context)
 
     return render(request, 'images/image/list.html', context=context)
+
+
+@login_required
+def image_ranking(request):
+    # get image ranking dictionary, min=0, max=-1 --> return all elements of sorted set
+    img_ranking = r.zrange('image_ranking', 0, -1, desc=True)
+    img_ranking_ids = [int(img_id) for img_id in img_ranking]
+
+    # get most viewed images
+    most_viewed_images = list(Image.objects.filter(id__in=img_ranking_ids))
+    print(most_viewed_images)
+    most_viewed_images.sort(key=lambda x: img_ranking_ids.index(x.id))
+    print(most_viewed_images)
+
+    context = {'section': 'images', 'most_viewed_images': most_viewed_images}
+    return render(request, 'images/image/ranking.html', context=context)
