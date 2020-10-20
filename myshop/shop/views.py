@@ -13,11 +13,11 @@ def product_list(request, category_slug=None):
         products = products.filter(category=category)
 
     context = {'category': category, 'categories': categories, 'products': products}
-    return render(request, 'shop/product/list.html', context=context)
+    return render(request, 'shop/product/product_list.html', context=context)
 
 
 def product_detail(request, product_id, product_slug):
     product = get_object_or_404(Product, id=product_id, slug=product_slug, available=True)
 
     context = {'product': product}
-    return render(request, 'shop/product/detail.html', context=context)
+    return render(request, 'shop/product/product_detail.html', context=context)
