@@ -48,10 +48,10 @@ table {
 }
 
 table th, table td {
-    text-align:left;
-    font-size:14px;
-    padding:10px;
-    margin:0;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+    margin: 0;
 }
 
 tbody tr:nth-child(odd) {

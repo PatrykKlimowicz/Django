@@ -20,7 +20,7 @@
             {% for item in cart %}
                 {% with p=item.product %}
                     <tr>
-                        <td><a href="{{ p.get_absolute_url }}">{{ p.image.url }}</a></td>
+                        <td><a href="{{ p.get_absolute_url }}"><img src="{{ p.image.url }}" ></a></td>
                         <td>{{ p.name }}</td>
                         <td>{{ item.quantity }}</td>
                         <td>
@@ -29,8 +29,8 @@
                                 {% csrf_token %}
                             </form>
                         </td>
-                        <td class="num">{{ item.price }}</td>
-                        <td class="num">{{ item.total_price }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.total_price }}</td>
                     </tr>
                 {% endwith %}
             {% endfor %}
