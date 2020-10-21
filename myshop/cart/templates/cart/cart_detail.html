@@ -8,7 +8,7 @@
     <table class="cart">
         <thead>
             <tr>
-                <th>Image</th>
+                <th style="text-align: left">Image</th>
                 <th>Product</th>
                 <th>Quantity</th>
                 <th>Remove</th>
@@ -20,7 +20,7 @@
             {% for item in cart %}
                 {% with p=item.product %}
                     <tr>
-                        <td><a href="{{ p.get_absolute_url }}"><img src="{{ p.image.url }}" ></a></td>
+                        <td style="text-align: left"><a href="{{ p.get_absolute_url }}"><img src="{{ p.image.url }}" ></a></td>
                         <td>{{ p.name }}</td>
                         <td>
                             <form action="{% url 'cart:cart_add' p.id %}" method="post">
@@ -42,7 +42,7 @@
                 {% endwith %}
             {% endfor %}
             <tr class="total">
-                <td>Total</td>
+                <td style="text-align: left">Total</td>
                 <td colspan="4"></td>
                 <td class="num">${{ cart.get_total_price }}</td>
             </tr>
